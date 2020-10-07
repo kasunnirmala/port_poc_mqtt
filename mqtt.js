@@ -1,6 +1,6 @@
 
 var mqtt = require('mqtt');
-var RFIDDataModel = require('./model/rfidData');
+var VehicleDataModel = require('./model/vehicleData');
 const express = require('express');
 var socket = require('./app');
 // const BatchModel = require('./model/batch');
@@ -29,15 +29,15 @@ var thisTime = moment().tz("Asia/Colombo");;
         // message = JSON.parse(message);
         // locationPoints = JSON.parse(message.locationPoints);
         // console.log(topic + " - " + locationPoints.lat);
-
+        console.log(message.toString());
        
 
 //         if(topic=="port/rfid"){
 //             console.log(message.toString());
 //             var dto = {};
-            message = JSON.parse(message.toString());
-        locationPoints = JSON.parse(message.locationPoints);
-        console.log(locationPoints.lat);
+        //     message = JSON.parse(message.toString());
+        // locationPoints = JSON.parse(message.locationPoints);
+        // console.log(locationPoints.lat);
 //             dto.val=message.rfid.toString();
 //             dto.timestamp = moment(message.timestamp).tz("Asia/Colombo");
 //             dto.datetime = moment(message.timestamp).tz("Asia/Colombo").format("YYYY-MM-DD, h:mm:ss a");
@@ -47,24 +47,19 @@ var thisTime = moment().tz("Asia/Colombo");;
 
 // console.log(dto);
 
-//             // try {
-//             //     const RFIDData = new RFIDDataModel({
-//             //         node_id:"TRUCK001",
-//             //         val: dto.val,
-//             //         timestamp: dto.timestamp,
-//             //         datetime: dto.datetime,
-//             //         date: dto.date,
-//             //         time: dto.time,
-//             //         sessionStatus: false
-//             //     });
+            try {
+                const VehicleData = new VehicleDataModel({
+                   data:message.toString(),
+                   topic:topic
+                });
 
-//             //     const savedRFIDData = await RFIDData.save();
-//             //     console.log(savedRFIDData);
+                const savedVehilceData = await VehicleData.save();
+                console.log(savedVehilceData);
 
-//             // } catch (error) {
-//             //     console.log(error.message);
+            } catch (error) {
+                console.log(error.message);
 
-//             // };
+            };
 //         }
        
 
